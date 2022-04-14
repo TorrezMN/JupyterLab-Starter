@@ -1,0 +1,23 @@
+version: "3.9"
+   
+services:
+
+  jupyter_lab:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: jupyter_lab
+    working_dir: /code
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+      JUPYTER_TOKEN: "docker_password"
+    volumes:
+      - ./src:/code/src
+    ports:
+      - "8888:8888"
+    restart: on-failure
+
